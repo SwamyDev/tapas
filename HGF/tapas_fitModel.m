@@ -334,7 +334,7 @@ n_obspars = length(r.c_obs.priormus);
 
 % Construct the objective function to be MINIMIZED:
 % The negative log-joint as a function of a single parameter vector
-nlj = @(p) [negLogJoint(r, prc_fun, obs_fun, p(1:n_prcpars), p(n_prcpars+1:n_prcpars+n_obspars))];
+nlj = @(p) negLogJoint(r, prc_fun, obs_fun, p(1:n_prcpars), p(n_prcpars+1:n_prcpars+n_obspars));
 
 % Check whether priors are in a region where the objective function can be evaluated
 [dummy1, dummy2, rval, err] = nlj(init);
@@ -448,7 +448,7 @@ end
 % Calculate the log-likelihood of observed responses given the perceptual trajectories,
 % under the observation model
 trialLogLls = obs_fun(r, infStates, ptrans_obs);
-logLl = sum(trialLogLls, 'omitnan');
+logLl =  nansum(trialLogLls);
 negLogLl = -logLl;
 
 % Calculate the log-prior of the perceptual parameters.
